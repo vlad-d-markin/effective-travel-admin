@@ -1,8 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Grid, Row, Col} from 'react-bootstrap';
+import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router'
 
 import Menu from './menu.jsx';
+import Users from './users.jsx';
+import Stations from './stations.jsx';
+import Routes from './routes.jsx';
+import About from './about.jsx';
 
 
 class App extends React.Component {
@@ -19,7 +24,7 @@ class App extends React.Component {
           </Col>
           
           <Col md={10}>
-            Controls are here
+             {this.props.children}
           </Col>
         </Row>
       </Grid>
@@ -27,4 +32,14 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(<App/>, document.body);
+ReactDOM.render(
+  <Router history={browserHistory}>
+      <Route path="/" component={App}>
+        <IndexRoute component={About} />
+        <Route path="users" component={Users}/>
+        <Route path="stations" component={Stations}/>
+        <Route path="routes" component={Routes}/>
+        <Route path="*" component={About}/>
+      </Route>
+  </Router>, 
+  document.body);
