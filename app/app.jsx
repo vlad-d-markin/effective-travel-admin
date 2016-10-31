@@ -14,28 +14,24 @@ import About from './about.jsx';
 import RestClient from 'another-rest-client'
 
 
+var server = new RestClient("https://busstat-server.herokuapp.com");
+server.res({
+  token : 0,
+  api : ['users', 'stations', 'test']
+});
+
+server.on('request', function(xhr) {
+  var token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjU4MDdhYzNkZjVlNTdkMGQ3MDcwNTQ1OSIsImV4cCI6MTQ3ODUyODUxOTgwOX0.s2Vc0SvxzWHZ_6f4eL3FuqJyOO6NTLUPNhdjZ4phjT8';  
+  xhr.setRequestHeader('Authorization', 'JWT ' + token);
+});
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     
     this.state= {
-      api : new RestClient("https://busstat-server.herokuapp.com"),
       messages : [ ]
     };
-    
-    this.state.api.res('token');
-    
-    var self = this;
-    
-    this.state.api.token.post({ login : 'admin', password : 'admin' }).then(function(res){
-      console.log('Login ' + res.success);
-      if(res.success) {
-        localStorage.setItem('effectiveTravel.token', res.token);
-      }
-      else {
-        localStorage.setItem('effectiveTravel.token', null);
-      }
-    });   
   }
   
   
@@ -72,8 +68,8 @@ ReactDOM.render(
   <Router history={browserHistory}>
       <Route path="/" component={App}>
         <IndexRoute component={About} />
-        <Route path="users" component={Users}/>
-        <Route path="stations" component={Stations}/>
+        <Route path="users" resource={server.api.test} component={Users}/>
+        <Route path="stations" resource={server.api.stations} component={Stations}/>
         <Route path="routes" component={Routes}/>
         <Route path="*" component={About}/>
       </Route>
