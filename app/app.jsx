@@ -14,7 +14,9 @@ import About from './about.jsx';
 import RestClient from 'another-rest-client'
 
 
-var server = new RestClient("https://busstat-server.herokuapp.com");
+// var server = new RestClient("https://busstat-server.herokuapp.com");
+var server = new RestClient("http://dev-tool-vladdmarkin900424.codeanyapp.com:8000");
+
 server.res({
   token : 0,
   api : ['users', 'stations', 'test']
