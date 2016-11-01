@@ -26,6 +26,8 @@ export default class Stations extends React.Component {
       alertStyle : 'warning',
       alertText : ''
     };
+    
+    this.update();
   }
   
   update() {
@@ -61,9 +63,7 @@ export default class Stations extends React.Component {
     this.setState({ newStation : { title : e.target.value }} );
   }
   
-  render() {
-    this.update();
-    
+  render() {   
     var stationTableItems = this.state.stationsList.map(function(station, idx){
       return(
         <tr key={idx}>
